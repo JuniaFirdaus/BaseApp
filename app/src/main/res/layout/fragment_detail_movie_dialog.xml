@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.70"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_company"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/movie"
+            tools:src="@drawable/ic_image" />
+
+        <TextView
+            android:id="@+id/tv_year"
+            style="@style/textDetailStyle"
+            android:layout_margin="9dp"
+            android:gravity="center"
+            tools:text="2023" />
+
+        <ImageView
+            android:id="@+id/iv_movie"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/movie"
+            android:scaleType="fitXY"
+            tools:src="@drawable/ic_image" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:id="@+id/btn_watch"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button"
+            android:text="@string/watch_thriller" />
+
+        <TextView
+            android:id="@+id/tv_genre"
+            style="@style/textDetailStyle"
+            android:layout_margin="6dp"
+            android:gravity="center"
+            tools:text="Kids, Adventure, Comedy Spy" />
+
+        <TextView
+            android:id="@+id/tv_overview"
+            style="@style/textDetailStyle"
+            android:layout_margin="6dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="3"
+            tools:text="Kids, Adventure, Comedy Spy" />
+
+        <TextView
+            style="@style/textDetailStyle"
+            android:layout_margin="6dp"
+            android:text="@string/more_like_this"
+            android:textSize="17sp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_similar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_movie" />
+
+        <TextView
+            style="@style/textDetailStyle"
+            android:layout_margin="6dp"
+            android:text="@string/reviewers"
+            android:textSize="17sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_reviewers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_review" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

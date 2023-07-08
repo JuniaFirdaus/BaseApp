@@ -1,10 +1,10 @@
 package com.junfirdaus.disneyhotstar.core.di
 
-import android.icu.util.TimeUnit
 import androidx.room.Room
+import com.junfirdaus.disneyhotstar.core.BuildConfig
 import com.junfirdaus.disneyhotstar.core.data.AppRepository
 import com.junfirdaus.disneyhotstar.core.data.source.local.LocalDataSource
-import com.junfirdaus.disneyhotstar.core.data.source.local.room.TourismDatabase
+import com.junfirdaus.disneyhotstar.core.data.source.local.room.AppDatabase
 import com.junfirdaus.disneyhotstar.core.data.source.remote.RemoteDataSource
 import com.junfirdaus.disneyhotstar.core.data.source.remote.network.ApiService
 import com.junfirdaus.disneyhotstar.core.domain.repository.IAppRepository
@@ -17,11 +17,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val databaseModule = module {
-    factory { get<TourismDatabase>().tourismDao() }
+    factory { get<AppDatabase>().appDao() }
     single {
         Room.databaseBuilder(
             androidContext(),
-            TourismDatabase::class.java, "Tourism.db"
+            AppDatabase::class.java, "Movies.db"
         ).fallbackToDestructiveMigration().build()
     }
 }
@@ -29,14 +29,23 @@ val databaseModule = module {
 val networkModule = module {
     single {
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor { chain ->
+                val url = chain
+                    .request()
+                    .url
+                    .newBuilder()
+                    .addQueryParameter("api_key", BuildConfig.APP_KEY)
+                    .build()
+                chain.proceed(chain.request().newBuilder().url(url).build())
+            }
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
             .connectTimeout(120, java.util.concurrent.TimeUnit.SECONDS)
             .readTimeout(120, java.util.concurrent.TimeUnit.SECONDS)
             .build()
     }
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://tourism-api.dicoding.dev/")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
