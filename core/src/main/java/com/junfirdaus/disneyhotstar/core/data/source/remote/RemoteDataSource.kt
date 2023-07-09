@@ -9,7 +9,6 @@ import com.junfirdaus.disneyhotstar.core.data.source.remote.network.ApiService
 import com.junfirdaus.disneyhotstar.core.data.source.remote.paging.MovieReviewersPagingSource
 import com.junfirdaus.disneyhotstar.core.data.source.remote.paging.MoviesByGenrePagingSource
 import com.junfirdaus.disneyhotstar.core.data.source.remote.paging.MoviesSimilarPagingSource
-import com.junfirdaus.disneyhotstar.core.data.source.remote.response.TourismResponse
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.genre.GenresItem
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviebygenre.MoviesItem
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviebyid.MovieByIdResponse
@@ -17,6 +16,7 @@ import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviereview
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviereviwers.ReviewersItem
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviessimilar.MoviesSimilarItem
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.movievideos.VideosItem
+import com.junfirdaus.disneyhotstar.core.data.source.remote.response.nowplaying.NowPlayingsItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -24,24 +24,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource(private val apiService: ApiService) {
-
-    suspend fun getAllTourism(): Flow<ApiResponse<List<TourismResponse>>> {
-        //get data from remote api
-        return flow {
-            try {
-                val response = apiService.getList()
-                val dataArray = response.places
-                if (dataArray.isNotEmpty()) {
-                    emit(ApiResponse.Success(response.places))
-                } else {
-                    emit(ApiResponse.Empty)
-                }
-            } catch (e: Exception) {
-                emit(ApiResponse.Error(e.toString()))
-                Log.e("RemoteDataSource", e.toString())
-            }
-        }.flowOn(Dispatchers.IO)
-    }
 
     suspend fun getGenres(): Flow<ApiResponse<List<GenresItem>>> {
         //get data from remote api
@@ -178,6 +160,24 @@ class RemoteDataSource(private val apiService: ApiService) {
                 emit(ApiResponse.Success(response.first()))
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getNowPlayingMovies(id: Int): Flow<ApiResponse<List<NowPlayingsItem>>> {
+        //get data from remote api
+        return flow {
+            try {
+                val response = apiService.getNowPlayingMovies(page = id)
+                val dataArray = response.results
+                if (dataArray.isNotEmpty()) {
+                    emit(ApiResponse.Success(response.results))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("RemoteDataSource", e.toString())
             }
         }.flowOn(Dispatchers.IO)
     }

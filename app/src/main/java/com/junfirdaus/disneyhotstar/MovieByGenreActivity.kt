@@ -30,7 +30,7 @@ class MovieByGenreActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        idGenre = intent.getData("id")
+        idGenre = intent.getData(ID)
         getMoviesByGenre(idGenre)
     }
 
@@ -43,7 +43,7 @@ class MovieByGenreActivity : AppCompatActivity() {
         val moviesByGenreAdapter = MoviesByGenreAdapter()
         moviesByGenreAdapter.onItemClick = { item ->
             val movieDetailDialogFragment = MovieDetailDialogFragment()
-            movieDetailDialogFragment.movieDetailDialogFragment(item.id.toString())
+            movieDetailDialogFragment.setIdMovieDetailDialogFragment(item.id.toString())
             movieDetailDialogFragment.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.AppBottomSheetDialogTheme
@@ -80,5 +80,9 @@ class MovieByGenreActivity : AppCompatActivity() {
             this.setHasFixedSize(true)
             this.adapter = moviesByGenreAdapter
         }
+    }
+
+    companion object {
+        const val ID = "id"
     }
 }

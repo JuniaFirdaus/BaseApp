@@ -60,7 +60,6 @@ val repositoryModule = module {
     single<IAppRepository> {
         AppRepository(
             get(),
-            get(),
             get()
         )
     }

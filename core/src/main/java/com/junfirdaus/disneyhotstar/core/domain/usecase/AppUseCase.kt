@@ -8,15 +8,12 @@ import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviereview
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviereviwers.ReviewersItem
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviessimilar.MoviesSimilarItem
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.movievideos.VideosItem
+import com.junfirdaus.disneyhotstar.core.data.source.remote.response.nowplaying.NowPlayingsItem
 import com.junfirdaus.disneyhotstar.core.domain.model.GenresModel
 import com.junfirdaus.disneyhotstar.core.domain.model.MoviesModel
-import com.junfirdaus.disneyhotstar.core.domain.model.Tourism
 import kotlinx.coroutines.flow.Flow
 
 interface AppUseCase {
-    fun getAllTourism(): Flow<Resource<List<Tourism>>>
-    fun getFavoriteTourism(): Flow<List<Tourism>>
-    fun setFavoriteTourism(tourism: Tourism, state: Boolean)
 
     fun getGenres(): Flow<Resource<List<GenresModel>>>
 
@@ -33,4 +30,6 @@ interface AppUseCase {
     fun getMoviesSimilar(id: String): Flow<Resource<PagingData<MoviesSimilarItem>>>
 
     fun getMoviesByGenre(genreId: Int): Flow<Resource<PagingData<MoviesItem>>>
+
+    fun getNowPlayingMovies(page: Int): Flow<Resource<List<NowPlayingsItem>>>
 }

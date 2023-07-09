@@ -18,7 +18,7 @@ object MoviesMapper {
                 posterPath = it.posterPath ?: "",
                 backdropPath = it.backdropPath ?: "",
                 releaseDate = it.releaseDate ?: "",
-                idMovie = it.id ?: 0
+                idMovie = it.id ?: 0,
             )
             moviesList.add(movie)
         }

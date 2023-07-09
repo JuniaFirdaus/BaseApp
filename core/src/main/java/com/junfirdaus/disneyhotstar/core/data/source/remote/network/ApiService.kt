@@ -1,6 +1,5 @@
 package com.junfirdaus.disneyhotstar.core.data.source.remote.network
 
-import com.junfirdaus.disneyhotstar.core.data.source.remote.response.ListTourismResponse
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.genre.GenreMoviesResponse
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviebygenre.MoviesByGenreResponse
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviebyid.MovieByIdResponse
@@ -8,13 +7,12 @@ import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviereview
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviereviwers.MovieReviewersResponse
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviessimilar.MoviesSimilarResponse
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.movievideos.MovieByVideosResponse
+import com.junfirdaus.disneyhotstar.core.data.source.remote.response.nowplaying.NowPlayingResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("list")
-    suspend fun getList(): ListTourismResponse
 
     @GET("genre/movie/list")
     suspend fun getGenres(): GenreMoviesResponse
@@ -51,4 +49,9 @@ interface ApiService {
         @Path("movie_id") id: String,
         @Query("page") page: Int,
     ): MoviesSimilarResponse
+
+    @GET("movie/now_playing")
+    suspend fun getNowPlayingMovies(
+        @Query("page") page: Int,
+    ): NowPlayingResponse
 }

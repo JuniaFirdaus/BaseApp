@@ -19,7 +19,7 @@
             android:layout_height="150dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/movie"
-            tools:src="@drawable/ic_image" />
+            tools:src="@drawable/ic_movie" />
 
         <TextView
             android:id="@+id/tv_year"
@@ -35,11 +35,11 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/movie"
             android:scaleType="fitXY"
-            tools:src="@drawable/ic_image" />
+            tools:src="@drawable/ic_movie" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
             android:id="@+id/btn_watch"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_button"

@@ -8,11 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.junfirdaus.disneyhotstar.R
 import com.junfirdaus.disneyhotstar.core.BuildConfig
 import com.junfirdaus.disneyhotstar.core.data.Resource
 import com.junfirdaus.disneyhotstar.dashboard.ui.MoviesReviewerAdapter
@@ -29,11 +31,11 @@ class MovieDetailDialogFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentDetailMovieDialogBinding? = null
     private val binding get() = _binding
 
-    private var movieId = ""
-    private var youtubeUrl = ""
+    private var mMovieId = ""
+    private var mYoutubeUrl = ""
 
-    fun movieDetailDialogFragment(id: String) {
-        this.movieId = id
+    fun setIdMovieDetailDialogFragment(id: String) {
+        this.mMovieId = id
     }
 
     override fun onCreateView(
@@ -48,13 +50,14 @@ class MovieDetailDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
-            getMovieById(movieId)
-            getMoviesSimilar(movieId)
-            getMovieVideos(movieId)
-            getMoviesReviewer(movieId)
+
+            getMovieById(mMovieId)
+            getMoviesSimilar(mMovieId)
+            getMovieVideos(mMovieId)
+            getMoviesReviewer(mMovieId)
 
             binding?.btnWatch?.setOnClickListener {
-                openYouTubeVideo(youtubeUrl)
+                openYouTubeVideo(mYoutubeUrl)
             }
         }
     }
@@ -99,7 +102,8 @@ class MovieDetailDialogFragment : BottomSheetDialogFragment() {
                             with(binding) {
                                 this?.tvYear?.text =
                                     "${it.data?.releaseDate} | ${it.data?.spokenLanguages?.size} languages | ${it.data?.voteAverage} votes"
-                                this?.tvGenre?.text = it.data?.genres?.map { it?.name }.toString()
+                                this?.tvGenre?.text =
+                                    it.data?.genres?.map { genre -> genre?.name }.toString()
                                 this?.tvOverview?.text = it.data?.overview
                             }
                         }
@@ -125,7 +129,7 @@ class MovieDetailDialogFragment : BottomSheetDialogFragment() {
                             val trailerKey = trailer?.key
 
                             if (!trailerKey.isNullOrEmpty()) {
-                                youtubeUrl = "https://www.youtube.com/watch?v=$trailerKey"
+                                mYoutubeUrl = "https://www.youtube.com/watch?v=$trailerKey"
                             }
                         }
                         is Resource.Error -> {
@@ -138,6 +142,15 @@ class MovieDetailDialogFragment : BottomSheetDialogFragment() {
 
     private fun getMoviesSimilar(id: String) {
         val moviesSimilarAdapter = MoviesSimilarAdapter()
+        moviesSimilarAdapter.onItemClick = { item ->
+            val movieDetailDialogFragment = MovieDetailDialogFragment()
+            movieDetailDialogFragment.setIdMovieDetailDialogFragment(item.id.toString())
+            movieDetailDialogFragment.setStyle(
+                DialogFragment.STYLE_NORMAL,
+                R.style.AppBottomSheetDialogTheme
+            )
+            movieDetailDialogFragment.show(childFragmentManager, "detail_movie")
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             dashboardViewModel.getMoviesSimilar(id = id).collectLatest {
                 when (it) {
@@ -199,7 +212,9 @@ class MovieDetailDialogFragment : BottomSheetDialogFragment() {
         }
 
         with(binding?.rvReviewers) {
-            this?.setHasFixedSize(true)
+            this?.setHasFixedSize(
+                true
+            )
             this?.adapter = moviesReviewerAdapter
         }
     }

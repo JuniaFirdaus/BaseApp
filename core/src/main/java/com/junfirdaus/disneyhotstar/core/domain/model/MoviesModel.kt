@@ -1,5 +1,9 @@
 package com.junfirdaus.disneyhotstar.core.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class MoviesModel(
 
     val overview: String,
@@ -13,4 +17,4 @@ data class MoviesModel(
     val releaseDate: String,
     val idMovie: Int,
     val id: Int,
-)
+): Parcelable

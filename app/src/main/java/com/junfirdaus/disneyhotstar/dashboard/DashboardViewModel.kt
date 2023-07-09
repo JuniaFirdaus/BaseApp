@@ -10,6 +10,7 @@ import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviebyid.M
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviereviwers.ReviewersItem
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.moviessimilar.MoviesSimilarItem
 import com.junfirdaus.disneyhotstar.core.data.source.remote.response.movievideos.VideosItem
+import com.junfirdaus.disneyhotstar.core.data.source.remote.response.nowplaying.NowPlayingsItem
 import com.junfirdaus.disneyhotstar.core.domain.model.GenresModel
 import com.junfirdaus.disneyhotstar.core.domain.model.MoviesModel
 import com.junfirdaus.disneyhotstar.core.domain.usecase.AppUseCase
@@ -52,6 +53,10 @@ class DashboardViewModel(private val appUseCase: AppUseCase) : ViewModel() {
 
     fun getMoviesByGenre(genreId: Int): Flow<Resource<PagingData<MoviesItem>>> {
         return appUseCase.getMoviesByGenre(genreId)
+    }
+
+    fun getNowPlayingMovies(): LiveData<Resource<List<NowPlayingsItem>>> {
+        return appUseCase.getNowPlayingMovies(1).asLiveData()
     }
 
 }

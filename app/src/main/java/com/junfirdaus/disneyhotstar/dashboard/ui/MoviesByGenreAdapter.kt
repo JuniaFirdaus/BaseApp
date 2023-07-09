@@ -52,7 +52,7 @@ class MoviesByGenreAdapter :
         fun bind(data: MoviesItem?) {
             Glide.with(itemView.context)
                 .load("${BuildConfig.IMAGE}${data?.posterPath}")
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_image))
+                .apply(RequestOptions.placeholderOf(R.drawable.ic_movie))
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.itemIvMovie)
 
