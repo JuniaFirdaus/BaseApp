@@ -68,8 +68,6 @@ class MovieDetailDialogFragment : BottomSheetDialogFragment() {
         val webIntent =
             Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=$videoId"))
 
-        // Check if the YouTube app is installed
-        //AIzaSyCtdV3xOAZdDOf85p2nLRryeUa1hkGHq0k
         if (youtubeAppIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(youtubeAppIntent)
         } else {
