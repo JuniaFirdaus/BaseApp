@@ -84,9 +84,10 @@ class MovieDetailDialogFragment : BottomSheetDialogFragment() {
                         is Resource.Loading -> {
                         }
                         is Resource.Success -> {
+                            val logoPath = it.data?.productionCompanies?.first()?.logoPath
                             binding?.let { it1 ->
                                 Glide.with(this)
-                                    .load("${BuildConfig.IMAGE}${it.data?.productionCompanies?.first()?.logoPath}")
+                                    .load("${BuildConfig.IMAGE}${logoPath ?: ""}")
                                     .transition(DrawableTransitionOptions.withCrossFade())
                                     .into(it1.ivCompany)
                             }
