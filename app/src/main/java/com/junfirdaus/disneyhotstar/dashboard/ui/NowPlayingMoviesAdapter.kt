@@ -49,7 +49,6 @@ class NowPlayingMoviesAdapter : RecyclerView.Adapter<NowPlayingMoviesAdapter.Lis
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.itemIvMovie)
 
-            binding.tvTitle.text = data.title
         }
 
         init {
